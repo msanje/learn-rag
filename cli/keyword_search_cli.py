@@ -22,7 +22,7 @@ def main() -> None:
                 movies_json = json.load(f)
                 all_movies = movies_json["movies"]
                 for i in range(len(all_movies)):
-                    if args.query in all_movies[i]["title"]:
+                    if args.query.lower() in all_movies[i]["title"].lower():
                         result.append(all_movies[i])
 
             for i in range(len(result)):
