@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Keyword Search CLI")
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    search_parser = subparsers.add_parser("search", help="Search movies using BM25")
+    search_parser.add_argument("query", type=str, help="Search query")
+
+    args = parser.parse_args()
+
+    match args.command:
+        case "search":
+            # print the search query here
+            print("Searching for:", args.query)
+            result = []
+            with open("data/movies.json") as f:
+                movies_json = json.load(f)
+                all_movies = movies_json["movies"]
+                for i in range(len(all_movies)):
+                    if args.query in all_movies[i]["title"]:
+                        result.append(all_movies[i])
+
+            for i in range(len(result)):
+                print(result[i]["id"], result[i]["title"])
+                if i == 4:
+                    break
+        case _:
+            parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
