@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import string
 import json
 
 
@@ -22,8 +23,13 @@ def main() -> None:
                 movies_json = json.load(f)
                 all_movies = movies_json["movies"]
                 for i in range(len(all_movies)):
-                    if args.query.lower() in all_movies[i]["title"].lower():
+                    table = str.maketrans("", "", string.punctuation)
+                    query = args.query.lower().translate(table)
+                    title = all_movies[i]["title"].lower().translate(table)
+                    if query in title:
                         result.append(all_movies[i])
+                    # if args.query.lower() in all_movies[i]["title"].lower():
+                    #     result.append(all_movies[i])
 
             for i in range(len(result)):
                 print(result[i]["id"], result[i]["title"])
