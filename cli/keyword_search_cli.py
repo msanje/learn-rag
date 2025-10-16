@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import string
-import json
+
+from lib.keyword_search import (
+    search_command,
+)
 
 
 def main() -> None:
@@ -16,39 +18,13 @@ def main() -> None:
 
     match args.command:
         case "search":
-            # print the search query here
             print("Searching for:", args.query)
-            result = []
-            with open("data/movies.json") as f:
-                movies_json = json.load(f)
-                all_movies = movies_json["movies"]
-                for i in range(len(all_movies)):
-                    table = str.maketrans("", "", string.punctuation)
-                    query = args.query.lower().translate(table)
-                    title = all_movies[i]["title"].lower().translate(table)
-                    # if query in title:
-                    #     result.append(all_movies[i])
-                    # if args.query.lower() in all_movies[i]["title"].lower():
-                    #     result.append(all_movies[i])
-
-                    query_token = query.split()
-                    title_token = title.split()
-
-                    # for q in range(len(query_token)):
-                    for q in query_token:
-                        for t in title_token:
-                            if q in t:
-                                result.append(all_movies[i])
-                                break
-            # if query_token[q] in title_token:
-            #     result.append(all_movies[i])
-
-            for i in range(len(result)):
-                print(result[i]["id"], result[i]["title"])
-                if i == 4:
-                    break
+            results = search_command(args.query)
+            for i, res in enumerate(results, 1):
+                print(f"{i}. {res['title']}")
         case _:
             parser.print_help()
+            parser.exit(2, parser.format_help())
 
 
 if __name__ == "__main__":
