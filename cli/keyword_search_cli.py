@@ -26,10 +26,17 @@ def main() -> None:
                     table = str.maketrans("", "", string.punctuation)
                     query = args.query.lower().translate(table)
                     title = all_movies[i]["title"].lower().translate(table)
-                    if query in title:
-                        result.append(all_movies[i])
+                    # if query in title:
+                    #     result.append(all_movies[i])
                     # if args.query.lower() in all_movies[i]["title"].lower():
                     #     result.append(all_movies[i])
+
+                    query_token = query.split()
+                    title_token = title.split()
+
+                    for j in range(len(query_token)):
+                        if query_token[j] in title_token:
+                            result.append(all_movies[i])
 
             for i in range(len(result)):
                 print(result[i]["id"], result[i]["title"])
