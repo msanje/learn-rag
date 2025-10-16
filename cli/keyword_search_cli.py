@@ -34,9 +34,14 @@ def main() -> None:
                     query_token = query.split()
                     title_token = title.split()
 
-                    for j in range(len(query_token)):
-                        if query_token[j] in title_token:
-                            result.append(all_movies[i])
+                    # for q in range(len(query_token)):
+                    for q in query_token:
+                        for t in title_token:
+                            if q in t:
+                                result.append(all_movies[i])
+                                break
+            # if query_token[q] in title_token:
+            #     result.append(all_movies[i])
 
             for i in range(len(result)):
                 print(result[i]["id"], result[i]["title"])
